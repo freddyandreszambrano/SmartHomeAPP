@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToHomeActivity() {
+        // TODO: Implement navigation logic to HomeActivity
 //        val i = Intent(this, HomeActivity::class.java)
 //        startActivity(i)
 //        finish()
