@@ -20,4 +20,7 @@
     <!-- Colores para sombras y efectos -->
     <color name="shadowColor">#40000000</color>
     <color name="overlayWhite">#30FFFFFF</color>
+
+    <color name="colorPinkHey">#e60e56</color>
+
 </resources>

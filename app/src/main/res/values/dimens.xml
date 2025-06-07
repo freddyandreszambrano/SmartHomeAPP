@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin_negative">-16dp</dimen>
+
+    <dimen name="activity_horizontal_margin_short">8dp</dimen>
+    <dimen name="activity_vertical_margin_short">8dp</dimen>
+    <dimen name="padding_page_main">14dp</dimen>
+
+    <dimen name="activity_horizontal_margin_short_x">4dp</dimen>
+    <dimen name="activity_vertical_margin_short_x">4dp</dimen>
+
+    <dimen name="dialog_button_margin">0dp</dimen>
+
+    <dimen name="image_my_user_profile_width">70dp</dimen>
+    <dimen name="image_my_user_profile_height">70dp</dimen>
+
+    <dimen name="image_user_width_home">40dp</dimen>
+    <dimen name="image_user_height_home">40dp</dimen>
+
+    <dimen name="image_user_dialog">120dp</dimen>
+
+    <dimen name="image_hey_width_splash">265dp</dimen>
+    <dimen name="image_hey_height_splash">145dp</dimen>
+    <dimen name="image_hey_padding_bottom_splash">110dp</dimen>
+
+    <dimen name="image_hey_width_home">95dp</dimen>
+    <dimen name="image_hey_width_page">100dp</dimen>
+    <dimen name="image_hey_height_page">30dp</dimen>
+    <dimen name="image_dialog_info">170dp</dimen>
+
+    <dimen name="image_hey_width_call">125dp</dimen>
+    <dimen name="image_hey_height_call">65dp</dimen>
+
+    <dimen name="image_nothing_width">72dp</dimen>
+    <dimen name="image_nothing_height">72dp</dimen>
+
+    <dimen name="width_ticket">400dp</dimen>
+    <dimen name="height_ticket">200dp</dimen>
+
+    <dimen name="tab_layout_height">35dp</dimen>
+
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="elevation_x">6dp</dimen>
+    <dimen name="padding_top_header_main">40dp</dimen>
+    <dimen name="padding_bottom_fab">80dp</dimen>
+    <dimen name="padding_bottom_home_contracts">10dp</dimen>
+    <dimen name="logo_width_in_toast">80dp</dimen>
+    <dimen name="logo_height_in_toast">80dp</dimen>
+    <dimen name="padding_line_separator">0.25dp</dimen>
+    <dimen name="margin_line_separator">6dp</dimen>
+    <dimen name="dimens_icons_buttons">24dp</dimen>
+    <dimen name="dimens_icons_buttons_x">36dp</dimen>
+    <dimen name="dimens_icon_button_list_contracts">30dp</dimen>
+    <dimen name="dimens_icon_main_options">48dp</dimen>
+    <dimen name="dimens_icon_headers">18dp</dimen>
+    <dimen name="dimens_buttons_main_page_tab">100dp</dimen>
+    <dimen name="dimens_icons_buttons_main_page_tab">36dp</dimen>
+
+    <dimen name="radius_dialogs">10dp</dimen>
+    <dimen name="container_header_radius">8dp</dimen>
+    <dimen name="container_options_radius">5dp</dimen>
+    <dimen name="item_row_radius">5dp</dimen>
+    <dimen name="button_rectangle_radius">10dp</dimen>
+
+    <dimen name="text_small_x">8dp</dimen>
+    <dimen name="text_small">10dp</dimen>
+    <dimen name="text_normal">12dp</dimen>
+    <dimen name="text_normal_x">14dp</dimen>
+    <dimen name="text_big">19dp</dimen>
+    <dimen name="text_big_x">22dp</dimen>
+
+    <dimen name="dimens_container_image_header">120dp</dimen>
+    <dimen name="dimens_image_header">75dp</dimen>
+    <dimen name="appbar_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+</resources>
