@@ -1,0 +1,28 @@
+# 🛠️ Android Studio / IntelliJ
+*.iml
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+
+# ⚙️ Gradle
+.gradle/
+/build/
+
+# 🔒 Local configuration file (sdk path, etc)
+local.properties
+
+# 🍎 OS generated files
+.DS_Store
+
+# 📦 Android generated files
+*.apk
+*.ap_
+*.dex
+
+# 🗑️ Otros archivos generados
+/captures/
+/.externalNativeBuild/
+/.cxx/
