@@ -14,8 +14,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.signInButton.setOnClickListener {
+            goToHomeActivity()
+        }
 
-        // Initialize other components or observers here
+    }
+
+    private fun goToHomeActivity() {
+        // TODO: Implement navigation logic to HomeActivity
+//        val i = Intent(this, HomeActivity::class.java)
+//        startActivity(i)
+//        finish()
     }
 
 }
