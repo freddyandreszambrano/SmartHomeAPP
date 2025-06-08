@@ -1,8 +1,10 @@
 package com.modelomatematico.smarthome.features.auth.view.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.modelomatematico.smarthome.databinding.ActivityLoginBinding
+import com.modelomatematico.smarthome.features.home.view.ui.LoadingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,16 +17,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.signInButton.setOnClickListener {
-            goToHomeActivity()
+            goToLoadingActivity()
         }
 
     }
 
-    private fun goToHomeActivity() {
-        // TODO: Implement navigation logic to HomeActivity
-//        val i = Intent(this, HomeActivity::class.java)
-//        startActivity(i)
-//        finish()
+    private fun goToLoadingActivity() {
+        val i = Intent(this, LoadingActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
 }
