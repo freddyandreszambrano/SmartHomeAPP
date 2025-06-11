@@ -33,7 +33,7 @@ fun LoadingScreen() {
 
     LaunchedEffect(Unit) {
         delay(5000)
-        context.startActivity(Intent(context, HomeActivity::class.java))
+        context.startActivity(Intent(context, ControlButtonsActivity::class.java))
         if (context is Activity) {
             context.finish()
         }
