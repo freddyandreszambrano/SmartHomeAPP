@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_card_titles">
+        <item>Luces</item>
+        <item>Bathroom</item>
+        <item>Puertas</item>
+        <item>Dining Room</item>
+    </string-array>
+
+    <string-array name="home_card_subtitles">
+        <item>Control lighting</item>
+        <item>Smart controls</item>
+        <item>Access control</item>
+        <item>Environment</item>
+    </string-array>
+
+    <string-array name="home_card_actions">
+        <item>lights</item>
+        <item>bathroom</item>
+        <item>doors</item>
+        <item>dining</item>
+    </string-array>
+
+    <string-array name="home_card_backgrounds">
+        <item>#E8F5E8</item>
+        <item>#8E4EC6</item>
+        <item>#FFF0E6</item>
+        <item>#F3E5F5</item>
+    </string-array>
+
+    <string-array name="home_card_icon_tints">
+        <item>#4CAF50</item>
+        <item>#FFFFFF</item>
+        <item>#FF9800</item>
+        <item>#9C27B0</item>
+    </string-array>
+
+    <string-array name="home_card_text_colors">
+        <item>#1A1A1A</item>
+        <item>#FFFFFF</item>
+        <item>#1A1A1A</item>
+        <item>#1A1A1A</item>
+    </string-array>
+
+    <string-array name="home_card_subtitle_colors">
+        <item>#6B7280</item>
+        <item>#E1BEE7</item>
+        <item>#6B7280</item>
+        <item>#6B7280</item>
+    </string-array>
+</resources>
