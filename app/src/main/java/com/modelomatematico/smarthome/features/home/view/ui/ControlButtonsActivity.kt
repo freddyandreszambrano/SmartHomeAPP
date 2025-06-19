@@ -1,4 +1,5 @@
 package com.modelomatematico.smarthome.features.home.view.ui
+
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -7,8 +8,11 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.modelomatematico.smarthome.R
+import com.modelomatematico.smarthome.core.task.TaskNetworkQuakeService
 
 class ControlButtonsActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,5 +48,11 @@ class ControlButtonsActivity : AppCompatActivity() {
             Toast.makeText(this, "Control de comedor", Toast.LENGTH_SHORT).show()
             // Aquí puedes agregar la lógica para el comedor
         }
+
+        startNetworkQuakeService()
+    }
+
+    private fun startNetworkQuakeService() {
+        TaskNetworkQuakeService().startService(this)
     }
 }
