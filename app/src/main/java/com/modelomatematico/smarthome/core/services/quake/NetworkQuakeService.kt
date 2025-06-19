@@ -3,6 +3,7 @@ package com.modelomatematico.smarthome.core.services.quake
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.modelomatematico.smarthome.core.constants.AppStrings
 
 class NetworkQuakeService : Service() {
@@ -22,6 +23,6 @@ class NetworkQuakeService : Service() {
     }
 
     private fun startSensorQueue() {
-        TODO("LOGIC TO START SENSOR QUEUE")
+        Log.i("NetworkQuakeService", "Starting sensor queue")
     }
 }
