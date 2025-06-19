@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F5F7FA"
     android:padding="16dp"
-    tools:context=".features.home.view.ui.ControlButtonsActivity">
+    tools:context=".features.home.view.ui.HomeActivity">
 
     <!-- Header -->
     <TextView

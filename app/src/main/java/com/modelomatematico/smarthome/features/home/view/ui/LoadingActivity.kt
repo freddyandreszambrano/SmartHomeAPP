@@ -12,8 +12,4 @@ class LoadingActivity : ComponentActivity() {
             LoadingScreen()
         }
     }
-    private fun goToControlButtons() {
-        startActivity(Intent(this, ControlButtonsActivity::class.java))
-        finish()
-    }
 }
