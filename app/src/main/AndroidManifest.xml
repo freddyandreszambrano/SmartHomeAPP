@@ -14,9 +14,6 @@
         android:theme="@style/Theme.SmartHomeApp"
         tools:targetApi="31">
         <activity
-            android:name=".features.home.view.ui.ControlButtonsActivity"
-            android:exported="false" />
-        <activity
             android:name=".features.home.view.ui.HomeActivity"
             android:exported="false" />
         <activity
