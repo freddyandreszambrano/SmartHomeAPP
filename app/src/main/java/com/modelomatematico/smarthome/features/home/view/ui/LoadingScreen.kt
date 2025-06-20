@@ -2,6 +2,8 @@ package com.modelomatematico.smarthome.features.home.view.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +22,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.modelomatematico.smarthome.R
-import kotlinx.coroutines.delay
+
 
 @Composable
 fun LoadingScreen() {
@@ -32,11 +34,12 @@ fun LoadingScreen() {
     )
 
     LaunchedEffect(Unit) {
-        delay(5000)
-        context.startActivity(Intent(context, ControlButtonsActivity::class.java))
-        if (context is Activity) {
-            context.finish()
-        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            context.startActivity(Intent(context, HomeActivity::class.java))
+            if (context is Activity) {
+                context.finish()
+            }
+        }, 3_000)
     }
 
     Box(
