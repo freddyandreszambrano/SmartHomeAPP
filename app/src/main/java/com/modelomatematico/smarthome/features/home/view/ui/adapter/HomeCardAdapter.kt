@@ -1,13 +1,12 @@
-package com.modelomatematico.smarthome.features.home.view.adapter
+package com.modelomatematico.smarthome.features.home.view.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.modelomatematico.smarthome.R
 import com.modelomatematico.smarthome.databinding.ItemHomeCardBinding
-import androidx.core.graphics.toColorInt
 
 class HomeCardAdapter(
     private val cardTitles: List<String>,
@@ -60,16 +59,13 @@ class HomeCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun render(cardTitle: String, position: Int) {
-        // Configurar textos
         binding.tvTitle.text = cardTitle
         binding.tvSubtitle.text = subtitles[position]
 
-        // Configurar colores
         binding.cardView.setCardBackgroundColor(backgrounds[position].toColorInt())
         binding.tvTitle.setTextColor(textColors[position].toColorInt())
         binding.tvSubtitle.setTextColor(subtitleColors[position].toColorInt())
 
-        // Configurar icono
         val iconResource = cardIconMap[cardTitle.uppercase()]
         iconResource?.let {
             binding.ivIcon.setImageResource(it)

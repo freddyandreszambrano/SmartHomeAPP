@@ -18,11 +18,13 @@ class NetworkQuakeService : Service() {
                     AppStrings.ACTION_STOP_QUEUE_SERVICE -> stopSelf()
                 }
             }
-        }
+            }
         return START_STICKY
     }
 
     private fun startSensorQueue() {
+//        TODO: Implement the logic to start the sensor queue
         Log.i("NetworkQuakeService", "Starting sensor queue")
     }
+
 }
