@@ -2,23 +2,21 @@ package com.modelomatematico.smarthome.features.lights.view.ui.adapter
 
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.modelomatematico.smarthome.R
 import com.modelomatematico.smarthome.databinding.ItemLightsCardBinding
-
-data class LightCard(
-    val title: String,
-    val isOn: Boolean = false
-)
+import com.modelomatematico.smarthome.features.lights.data.model.LightCardModel
 
 class LightsCardAdapter(
-    private var lightCards: MutableList<LightCard>,
-    private val onItemClick: (LightCard, Int) -> Unit,
-    private val onSwitchToggle: (LightCard, Int, Boolean) -> Unit
+    private var lightCards: MutableList<LightCardModel>,
+    private val onItemClick: (LightCardModel, Int) -> Unit,
+    private val onSwitchToggle: (LightCardModel, Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<LightsCardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LightsCardViewHolder {
@@ -71,18 +69,12 @@ class LightsCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         backgrounds = context.resources.getStringArray(R.array.Lights_card_backgrounds)
         iconTints = context.resources.getStringArray(R.array.Lights_card_icon_tints)
 
-        cardIconMap = mapOf(
-            titlesArray[0].uppercase() to R.drawable.ic_sun,
-            titlesArray[1].uppercase() to R.drawable.ic_sun,
-            titlesArray[2].uppercase() to R.drawable.ic_sun,
-            titlesArray[3].uppercase() to R.drawable.ic_sun,
-            titlesArray[4].uppercase() to R.drawable.ic_sun,
-        )
+        cardIconMap = titlesArray.associate { it.uppercase() to R.drawable.ic_sun }
 
         setupSwitchClickListener()
     }
 
-    fun render(lightCard: LightCard, position: Int) {
+    fun render(lightCard: LightCardModel, position: Int) {
         binding.tvTitle.text = lightCard.title
         currentState = lightCard.isOn
 
@@ -121,14 +113,14 @@ class LightsCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
 
         binding.switchContainer.setOnClickListener(switchClickListener)
-        binding.tvOnOff.setOnClickListener(switchClickListener)
 
         binding.switchContainer.setOnTouchListener { v, event ->
             when (event.action) {
-                android.view.MotionEvent.ACTION_DOWN -> {
+                MotionEvent.ACTION_DOWN -> {
                     v.alpha = 0.7f
                 }
-                android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
+
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     v.alpha = 1.0f
                 }
             }
@@ -139,16 +131,11 @@ class LightsCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private fun updateSwitchState(isOn: Boolean, animate: Boolean) {
         val context = binding.root.context
 
-        // Actualizar texto On/Off
-        binding.tvOnOff.text = if (isOn) "On" else "Off"
-        binding.tvOnOff.setTextColor(
-            ContextCompat.getColor(
-                context,
-                if (isOn) R.color.brightBlue else R.color.textGrayDark
-            )
+        binding.tvSwitchText.text = if (isOn) "ON" else "OFF"
+        binding.tvSwitchText.setTextColor(
+            ContextCompat.getColor(context, R.color.white)
         )
 
-        // Cambiar color del fondo del switch
         binding.switchContainer.setCardBackgroundColor(
             ContextCompat.getColor(
                 context,
@@ -156,32 +143,41 @@ class LightsCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             )
         )
 
-        // Animar o posicionar el thumb del switch
-        val targetTranslationX = if (isOn) 20f else 0f
+        val thumbTargetX = if (isOn) 44f else 4f
+        val textTargetX = if (isOn) 0f else 40f
 
         if (animate) {
-            val currentTranslationX = binding.switchThumb.translationX
-            val animator = ObjectAnimator.ofFloat(
+            val thumbAnimator = ObjectAnimator.ofFloat(
                 binding.switchThumb,
                 "translationX",
-                currentTranslationX,
-                targetTranslationX
+                binding.switchThumb.translationX,
+                thumbTargetX
             )
-            animator.duration = 250
-            animator.interpolator = android.view.animation.DecelerateInterpolator()
+            thumbAnimator.duration = 300
+            thumbAnimator.interpolator = AccelerateDecelerateInterpolator()
 
-            // Agregar un pequeño efecto de escala durante la animación
-            val scaleAnimator = ObjectAnimator.ofFloat(binding.switchThumb, "scaleX", 1f, 0.9f, 1f)
-            scaleAnimator.duration = 250
+            val textAnimator = ObjectAnimator.ofFloat(
+                binding.tvSwitchText,
+                "translationX",
+                binding.tvSwitchText.translationX,
+                textTargetX
+            )
+            textAnimator.duration = 300
+            textAnimator.interpolator = AccelerateDecelerateInterpolator()
+            val scaleAnimator = ObjectAnimator.ofFloat(binding.switchThumb, "scaleX", 1f, 0.85f, 1f)
+            scaleAnimator.duration = 300
 
-            val scaleYAnimator = ObjectAnimator.ofFloat(binding.switchThumb, "scaleY", 1f, 0.9f, 1f)
-            scaleYAnimator.duration = 250
+            val scaleYAnimator =
+                ObjectAnimator.ofFloat(binding.switchThumb, "scaleY", 1f, 0.85f, 1f)
+            scaleYAnimator.duration = 300
 
-            animator.start()
+            thumbAnimator.start()
+            textAnimator.start()
             scaleAnimator.start()
             scaleYAnimator.start()
         } else {
-            binding.switchThumb.translationX = targetTranslationX
+            binding.switchThumb.translationX = thumbTargetX
+            binding.tvSwitchText.translationX = textTargetX
         }
     }
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.modelomatematico.smarthome.R
 import com.modelomatematico.smarthome.core.view.decoration.GridSpacingItemDecoration
 import com.modelomatematico.smarthome.databinding.ActivityLightsBinding
-import com.modelomatematico.smarthome.features.lights.view.ui.adapter.LightCard
+import com.modelomatematico.smarthome.features.lights.data.model.LightCardModel
 import com.modelomatematico.smarthome.features.lights.view.ui.adapter.LightsCardAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +18,7 @@ class LightsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLightsBinding
     private lateinit var lightsAdapter: LightsCardAdapter
-    private lateinit var lightCards: MutableList<LightCard>
+    private lateinit var lightCards: MutableList<LightCardModel>
     private lateinit var cardTitles: List<String>
     private lateinit var cardActions: Array<String>
 
@@ -37,9 +37,9 @@ class LightsActivity : AppCompatActivity() {
     }
 
     private fun initializeData() {
-        lightCards = mutableListOf<LightCard>().apply {
+        lightCards = mutableListOf<LightCardModel>().apply {
             cardTitles.forEach { title ->
-                add(LightCard(title, false))
+                add(LightCardModel(title, false))
             }
         }
     }
@@ -63,49 +63,85 @@ class LightsActivity : AppCompatActivity() {
         )
     }
 
-    private fun handleCardClick(lightCard: LightCard, position: Int) {
+    private fun handleCardClick(lightCard: LightCardModel, position: Int) {
         Toast.makeText(this, "Clicked on: ${lightCard.title}", Toast.LENGTH_SHORT).show()
 
-        // Aquí puedes manejar la navegación a diferentes pantallas según el tipo de card
         when (lightCard.title.lowercase()) {
-            "morning routine", "luces" -> {
-                Log.d("LightsActivity", "Navigating to Morning Routine")
+            "todo" -> {
+                Log.d("LightsActivity", "Navigating to All Lights Control")
             }
 
-            "bathroom", "baño" -> {
+            "baño" -> {
                 Log.d("LightsActivity", "Navigating to Bathroom Lights")
             }
 
-            "doors", "puertas" -> {
-                Log.d("LightsActivity", "Navigating to Doors Lights")
+            "cuarto" -> {
+                Log.d("LightsActivity", "Navigating to Bedroom Lights")
             }
 
-            "dining", "comedor" -> {
-                Log.d("LightsActivity", "Navigating to Dining Lights")
+            "cocina" -> {
+                Log.d("LightsActivity", "Navigating to Kitchen Lights")
+            }
+
+            "sala" -> {
+                Log.d("LightsActivity", "Navigating to Living Room Lights")
             }
         }
     }
 
 
-
-    private fun handleSwitchToggle(lightCard: LightCard, position: Int, isOn: Boolean) {
-        // Aquí puedes llamar a tu API o servicio para cambiar el estado de las luces
+    private fun handleSwitchToggle(lightCard: LightCardModel, position: Int, isOn: Boolean) {
         Toast.makeText(
             this,
             "${lightCard.title} turned ${if (isOn) "ON" else "OFF"}",
             Toast.LENGTH_SHORT
         ).show()
 
-        // Simular llamada a API
         toggleLightState(lightCard.title, isOn)
     }
 
     private fun toggleLightState(deviceName: String, isOn: Boolean) {
-        // Aquí implementarías la lógica para comunicarte con tu sistema de domótica
-        // Por ejemplo, llamada a API REST, MQTT, etc.
+        when (deviceName.lowercase()) {
+            "todo" -> {
+                if (isOn) {
+                    Log.d("LightsActivity", "Encendiendo TODAS las luces")
+                } else {
+                    Log.d("LightsActivity", "Apagando TODAS las luces")
+                }
+            }
 
-        // Simulación de respuesta exitosa
-        // En caso de error, podrías revertir el estado del switch
-        // lightsAdapter.updateCard(position, !isOn)
+            "baño" -> {
+                if (isOn) {
+                    Log.d("LightsActivity", "Encendiendo luces del BAÑO")
+                } else {
+                    Log.d("LightsActivity", "Apagando luces del BAÑO")
+                }
+            }
+
+            "cuarto" -> {
+                if (isOn) {
+                    Log.d("LightsActivity", "Encendiendo luces del CUARTO")
+                    // Ejemplo: apiClient.turnOnBedroomLights()
+                } else {
+                    Log.d("LightsActivity", "Apagando luces del CUARTO")
+                }
+            }
+
+            "cocina" -> {
+                if (isOn) {
+                    Log.d("LightsActivity", "Encendiendo luces de la COCINA")
+                } else {
+                    Log.d("LightsActivity", "Apagando luces de la COCINA")
+                }
+            }
+
+            "sala" -> {
+                if (isOn) {
+                    Log.d("LightsActivity", "Encendiendo luces de la SALA")
+                } else {
+                    Log.d("LightsActivity", "Apagando luces de la SALA")
+                }
+            }
+        }
     }
 }
