@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- activity_control_buttons.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGrayBlue"
-    tools:context=".features.home.view.ui.HomeActivity">
+    tools:context=".features.lights.view.ui.LightsActivity">
 
     <!-- Header Container l -->
     <androidx.cardview.widget.CardView
         android:id="@+id/header_card"
         android:layout_width="0dp"
-        android:layout_height="260dp"
+        android:layout_height="200dp"
         android:layout_margin="0dp"
         android:backgroundTint="@color/primaryPurple"
         app:cardCornerRadius="0dp"
@@ -37,6 +37,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvHeaderTitleLights"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -44,15 +45,6 @@
                     android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold" />
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:alpha="0.8"-->
-<!--                    android:text="Last Update 20 Feb 2025"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="14sp" />-->
-
             </LinearLayout>
 
             <!-- Imagen de perfil-->
@@ -75,18 +67,19 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+
     <LinearLayout
         android:id="@+id/white_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/bg_white_rounded_top"
         android:orientation="vertical"
         android:paddingStart="24dp"
         android:paddingTop="32dp"
         android:paddingEnd="24dp"
         android:paddingBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_lights"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -103,7 +96,7 @@
 
     <!-- Navegación inferior-->
     <androidx.cardview.widget.CardView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_navigation_lights"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

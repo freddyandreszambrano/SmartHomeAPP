@@ -1,5 +1,6 @@
 package com.modelomatematico.smarthome.features.home.view.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,7 @@ import com.modelomatematico.smarthome.core.task.TaskNetworkQuakeService
 import com.modelomatematico.smarthome.core.view.decoration.GridSpacingItemDecoration
 import com.modelomatematico.smarthome.databinding.ActivityControlButtonsBinding
 import com.modelomatematico.smarthome.features.home.view.ui.adapter.HomeCardAdapter
+import com.modelomatematico.smarthome.features.lights.view.ui.LightsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
 
             when (action) {
                 "lights" -> {
-                    Toast.makeText(this, "Control de luces", Toast.LENGTH_SHORT).show()
+                    goToLightsActivity()
                 }
 
                 "bathroom" -> {
@@ -64,6 +66,11 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun goToLightsActivity() {
+        val i = Intent(this, LightsActivity::class.java)
+        startActivity(i)
     }
 
     private fun startNetworkQuakeService() {

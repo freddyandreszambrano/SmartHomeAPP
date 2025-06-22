@@ -29,10 +29,35 @@
     </string-array>
 
 
-    <string-array name="home_card_subtitle_colors">
-        <item>#6B7280</item>
-        <item>#E1BEE7</item>
-        <item>#6B7280</item>
-        <item>#6B7280</item>
+    <string-array name="lights_card_titles">
+        <item>TODO</item>
+        <item>BAÑO</item>
+        <item>CUARTO</item>
+        <item>COCINA</item>
+        <item>SALA</item>
+    </string-array>
+
+    <string-array name="lights_card_actions">
+        <item>ALL</item>
+        <item>BATHROOM</item>
+        <item>BEDROOM</item>
+        <item>KITCHEN</item>
+        <item>LIVING ROOM</item>
+    </string-array>
+
+    <string-array name="Lights_card_backgrounds">
+        <item>#E8F5E8</item>
+        <item>#8E4EC6</item>
+        <item>#FFF0E6</item>
+        <item>#FFF0E6</item>
+        <item>#F3E5F5</item>
+    </string-array>
+
+    <string-array name="Lights_card_icon_tints">
+        <item>#FFFFFF</item>
+        <item>#FFFFFF</item>
+        <item>#FFFFFF</item>
+        <item>#FFFFFF</item>
+        <item>#FFFFFF</item>
     </string-array>
 </resources>

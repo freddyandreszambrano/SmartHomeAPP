@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SmartHomeApp</string>
+    <string name="lights_title">Luces</string>
 </resources>
