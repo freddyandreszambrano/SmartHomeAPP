@@ -26,12 +26,15 @@
     <color name="iconInactive">#9CA3AF</color>
     <color name="purpleButton">#8E4EC6</color>
 
-<!--    home-->
+    <!--    home-->
     <color name="brightBlue">#4A90E2</color>
     <color name="slateGrayDark">#2D3748</color>
     <color name="lightSkyBlue">#E8F4FD</color>
+    <color name="lightGrayBlue">#F5F7FA</color>
 
-
-
+    <!--    lights-->
+    <color name="sunYellow">#FFB500</color>
+    <color name="switchInactive">#E5E7EB</color>
+    <color name="switchActive">#4A90E2</color>
 
 </resources>
