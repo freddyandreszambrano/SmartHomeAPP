@@ -33,22 +33,16 @@ class HomeCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemHomeCardBinding.bind(view)
     private val cardIconMap: Map<String, Int>
-    private val subtitles: Array<String>
     private val actions: Array<String>
     private val backgrounds: Array<String>
     private val iconTints: Array<String>
-    private val textColors: Array<String>
-    private val subtitleColors: Array<String>
 
     init {
         val context = view.context
         val titlesArray = context.resources.getStringArray(R.array.home_card_titles)
-        subtitles = context.resources.getStringArray(R.array.home_card_subtitles)
         actions = context.resources.getStringArray(R.array.home_card_actions)
         backgrounds = context.resources.getStringArray(R.array.home_card_backgrounds)
         iconTints = context.resources.getStringArray(R.array.home_card_icon_tints)
-        textColors = context.resources.getStringArray(R.array.home_card_text_colors)
-        subtitleColors = context.resources.getStringArray(R.array.home_card_subtitle_colors)
 
         cardIconMap = mapOf(
             titlesArray[0].uppercase() to R.drawable.ic_lightbulb,
@@ -60,11 +54,7 @@ class HomeCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun render(cardTitle: String, position: Int) {
         binding.tvTitle.text = cardTitle
-        binding.tvSubtitle.text = subtitles[position]
-
-        binding.cardView.setCardBackgroundColor(backgrounds[position].toColorInt())
-        binding.tvTitle.setTextColor(textColors[position].toColorInt())
-        binding.tvSubtitle.setTextColor(subtitleColors[position].toColorInt())
+        binding.iconContainer.setCardBackgroundColor(backgrounds[position].toColorInt())
 
         val iconResource = cardIconMap[cardTitle.uppercase()]
         iconResource?.let {

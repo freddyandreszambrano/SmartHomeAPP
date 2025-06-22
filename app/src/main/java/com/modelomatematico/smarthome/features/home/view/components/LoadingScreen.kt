@@ -1,4 +1,4 @@
-package com.modelomatematico.smarthome.features.home.view.ui
+package com.modelomatematico.smarthome.features.home.view.components
 
 import android.app.Activity
 import android.content.Intent
@@ -22,6 +22,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.modelomatematico.smarthome.R
+import com.modelomatematico.smarthome.features.home.view.ui.HomeActivity
 
 
 @Composable

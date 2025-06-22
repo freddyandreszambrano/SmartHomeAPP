@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.modelomatematico.smarthome.R
 import com.modelomatematico.smarthome.core.task.TaskNetworkQuakeService
+import com.modelomatematico.smarthome.core.view.decoration.GridSpacingItemDecoration
 import com.modelomatematico.smarthome.databinding.ActivityControlButtonsBinding
 import com.modelomatematico.smarthome.features.home.view.ui.adapter.HomeCardAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,18 +22,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         binding = ActivityControlButtonsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
         cardTitles = resources.getStringArray(R.array.home_card_titles).toList()
         cardActions = resources.getStringArray(R.array.home_card_actions)
-
         initRecyclerView()
         startNetworkQuakeService()
     }
@@ -44,6 +35,10 @@ class HomeActivity : AppCompatActivity() {
         binding.rvHomeCards.adapter = HomeCardAdapter(cardTitles) { cardTitle ->
             handleCardClick(cardTitle)
         }
+        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.grid_spacing)
+        binding.rvHomeCards.addItemDecoration(
+            GridSpacingItemDecoration(2, spacingInPixels, true)
+        )
     }
 
     private fun handleCardClick(cardTitle: String) {
