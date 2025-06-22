@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.modelomatematico.smarthome.core.constants.AppStrings
+import com.modelomatematico.smarthome.features.quake.view.ui.QuakeAlertActivity
 
 class NetworkQuakeService : Service() {
 
@@ -24,7 +25,13 @@ class NetworkQuakeService : Service() {
 
     private fun startSensorQueue() {
 //        TODO: Implement the logic to start the sensor queue
-        Log.i("NetworkQuakeService", "Starting sensor queue")
+//        showAlertActivity()
+    }
+
+    private fun showAlertActivity() {
+        val i = Intent(this, QuakeAlertActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(i)
     }
 
 }
