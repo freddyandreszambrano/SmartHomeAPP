@@ -4,14 +4,7 @@
         <item>Luces</item>
         <item>Bathroom</item>
         <item>Puertas</item>
-        <item>Dining Room</item>
-    </string-array>
-
-    <string-array name="home_card_subtitles">
-        <item>Control lighting</item>
-        <item>Smart controls</item>
-        <item>Access control</item>
-        <item>Environment</item>
+        <item>Dining</item>
     </string-array>
 
     <string-array name="home_card_actions">
@@ -35,12 +28,6 @@
         <item>#9C27B0</item>
     </string-array>
 
-    <string-array name="home_card_text_colors">
-        <item>#1A1A1A</item>
-        <item>#FFFFFF</item>
-        <item>#1A1A1A</item>
-        <item>#1A1A1A</item>
-    </string-array>
 
     <string-array name="home_card_subtitle_colors">
         <item>#6B7280</item>
