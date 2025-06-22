@@ -40,7 +40,7 @@ fun LoadingScreen() {
             if (context is Activity) {
                 context.finish()
             }
-        }, 3_000)
+        }, 2_000)
     }
 
     Box(
