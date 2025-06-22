@@ -20,7 +20,18 @@
     <!-- Colores para sombras y efectos -->
     <color name="shadowColor">#40000000</color>
     <color name="overlayWhite">#30FFFFFF</color>
-
     <color name="colorPinkHey">#e60e56</color>
+
+    <!--    navigation  menu-->
+    <color name="iconInactive">#9CA3AF</color>
+    <color name="purpleButton">#8E4EC6</color>
+
+<!--    home-->
+    <color name="brightBlue">#4A90E2</color>
+    <color name="slateGrayDark">#2D3748</color>
+    <color name="lightSkyBlue">#E8F4FD</color>
+
+
+
 
 </resources>
