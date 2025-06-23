@@ -45,10 +45,10 @@ class HomeCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         iconTints = context.resources.getStringArray(R.array.home_card_icon_tints)
 
         cardIconMap = mapOf(
-            titlesArray[0].uppercase() to R.drawable.ic_lightbulb,
-            titlesArray[1].uppercase() to R.drawable.ic_bathroom,
-            titlesArray[2].uppercase() to R.drawable.ic_door,
-            titlesArray[3].uppercase() to R.drawable.ic_dining,
+            titlesArray[0].uppercase() to R.drawable.ic_lightbulb_solid,
+            titlesArray[1].uppercase() to R.drawable.ic_fan_solid,
+            titlesArray[2].uppercase() to R.drawable.ic_rocket_solid,
+            titlesArray[3].uppercase() to R.drawable.ic_rocket_solid,
         )
     }
 

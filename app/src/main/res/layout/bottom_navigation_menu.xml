@@ -44,7 +44,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_calendar"
+            android:src="@drawable/ic_lightbulb_solid"
             app:tint="@color/iconInactive" />
     </LinearLayout>
 
@@ -98,7 +98,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_bar_chart"
+            android:src="@drawable/ic_rocket_solid"
             app:tint="@color/iconInactive" />
     </LinearLayout>
 
@@ -118,7 +118,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_bar_chart"
+            android:src="@drawable/ic_rocket_solid"
             app:tint="@color/iconInactive" />
     </LinearLayout>
 </LinearLayout>
