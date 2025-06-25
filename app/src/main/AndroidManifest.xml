@@ -2,6 +2,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Para Android 12 (API 31)+ -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <!-- Para Android 11 e inferiores (maxSdkVersion evita conflictos) -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <!-- Si vas a escanear dispositivos en versiones ≤ Android 11, aún se exige localización -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+
+    <!-- Declarar que la app requiere BT clásico -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
+    <!-- (Opcional) Si tu teléfono usa BLE además del HC-06, agrega: -->
+    <!-- <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" /> -->
+
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
