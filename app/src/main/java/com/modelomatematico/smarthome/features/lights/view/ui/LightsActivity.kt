@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.modelomatematico.smarthome.R
+import com.modelomatematico.smarthome.core.services.bluetooth.NetworkBluetoothService
 import com.modelomatematico.smarthome.core.view.decoration.GridSpacingItemDecoration
 import com.modelomatematico.smarthome.databinding.ActivityLightsBinding
-import com.modelomatematico.smarthome.features.home.view.ui.HomeActivity
 import com.modelomatematico.smarthome.features.lights.data.model.LightCardModel
 import com.modelomatematico.smarthome.features.lights.view.ui.adapter.LightsCardAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -113,7 +113,6 @@ class LightsActivity : AppCompatActivity() {
     }
 
     private fun toggleLightState(deviceName: String, isOn: Boolean) {
-        // Determinar comando según la tarjeta y el estado del switch
         val command = when (deviceName.lowercase()) {
             "todo" -> {
                 if (isOn) {
@@ -167,15 +166,15 @@ class LightsActivity : AppCompatActivity() {
     }
 
     private fun sendBluetoothCommand(command: Char, description: String) {
-        val homeActivity = HomeActivity.instance
+        val bluetoothService = NetworkBluetoothService.getInstance()
 
-        if (homeActivity == null) {
-            Log.e(TAG, "HomeActivity no disponible")
-            showToast("❌ Error: Conexión Bluetooth no disponible")
+        if (bluetoothService == null) {
+            Log.e(TAG, "NetworkBluetoothService no disponible")
+            showToast("❌ Error: Servicio Bluetooth no disponible")
             return
         }
 
-        if (!homeActivity.isConnected) {
+        if (!bluetoothService.isConnected) {
             Log.w(TAG, "Bluetooth no conectado")
             showToast("❌ Bluetooth no conectado")
             return
@@ -184,7 +183,7 @@ class LightsActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 showToast("🔄 Enviando comando...")
-                val success = homeActivity.sendBluetoothCommand(command)
+                val success = bluetoothService.sendBluetoothCommand(command)
 
                 val message = if (success) {
                     "✅ $description"

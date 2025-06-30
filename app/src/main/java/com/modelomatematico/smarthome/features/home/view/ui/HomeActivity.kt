@@ -1,10 +1,6 @@
 package com.modelomatematico.smarthome.features.home.view.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,21 +9,21 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.modelomatematico.smarthome.R
+import com.modelomatematico.smarthome.core.constants.AppStrings
+import com.modelomatematico.smarthome.core.services.bluetooth.NetworkBluetoothService
+import com.modelomatematico.smarthome.core.services.quake.NetworkQuakeService
 import com.modelomatematico.smarthome.core.task.TaskNetworkQuakeService
 import com.modelomatematico.smarthome.core.view.decoration.GridSpacingItemDecoration
 import com.modelomatematico.smarthome.databinding.ActivityControlButtonsBinding
 import com.modelomatematico.smarthome.features.home.view.ui.adapter.HomeCardAdapter
 import com.modelomatematico.smarthome.features.lights.view.ui.LightsActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
-import java.util.UUID
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -36,24 +32,17 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var cardTitles: List<String>
     private lateinit var cardActions: Array<String>
 
-    // Bluetooth variables
-    private lateinit var bluetoothAdapter: BluetoothAdapter
-    private var hc06Device: BluetoothDevice? = null
-    private var btSocket: BluetoothSocket? = null
-
-    private val hc06Name = "HC-06"
-    private val sppUuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     private val TAG = "HomeActivity"
 
-    private var isConnecting = false
-    var isConnected = false
-        private set
+    private var isAppClosing = false
+
+    private var fanState = false
 
     private val btPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { perms ->
             if (perms.values.all { it }) {
                 Log.d(TAG, "Permisos Bluetooth concedidos")
-                initBluetooth()
+                startBluetoothService()
             } else {
                 Log.e(TAG, "Permisos Bluetooth denegados")
                 showToast("Se necesitan permisos Bluetooth")
@@ -74,20 +63,36 @@ class HomeActivity : AppCompatActivity() {
         requestBtPermissions()
     }
 
-    @androidx.annotation.RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart - isConnected: $isConnected, hc06Device: ${hc06Device?.name}")
-        if (hc06Device != null && !isConnected) {
-            lifecycleScope.launch { connectAndWait() }
-        }
+        Log.d(TAG, "onStart")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy - Cerrando conexión")
-        try { btSocket?.close() } catch (_: IOException) {}
-        isConnected = false
+        Log.d(TAG, "onDestroy - Verificando si debe detener servicios")
+
+        if (isAppClosing) {
+            Log.d(TAG, "App cerrándose completamente - Deteniendo servicios")
+            stopAllServices()
+        } else {
+            val quakeService = NetworkQuakeService.getInstance()
+            val isAlarmActive = quakeService?.let {
+                false
+            } ?: false
+
+            if (isAlarmActive) {
+                Log.d(TAG, "Alarma activa - Manteniendo servicios ejecutándose")
+            } else {
+                Log.d(TAG, "Navegación normal - Manteniendo servicios ejecutándose")
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        Log.d(TAG, "Usuario presionó back - Cerrando app completamente")
+        isAppClosing = true
+        super.onBackPressed()
     }
 
     private fun requestBtPermissions() {
@@ -107,127 +112,48 @@ class HomeActivity : AppCompatActivity() {
         btPermissionLauncher.launch(perms)
     }
 
-    @SuppressLint("MissingPermission")
-    private fun initBluetooth() {
-        Log.d(TAG, "Inicializando Bluetooth")
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-            ?: run {
-                Log.e(TAG, "Bluetooth no disponible")
-                showToast("Bluetooth no disponible")
-                return
-            }
-
-        if (!bluetoothAdapter.isEnabled) {
-            Log.w(TAG, "Bluetooth no habilitado, solicitando activación")
-            startActivity(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-            return
+    private fun startBluetoothService() {
+        Log.d(TAG, "Iniciando NetworkBluetoothService")
+        val intent = Intent(this, NetworkBluetoothService::class.java).apply {
+            action = AppStrings.ACTION_START_BLUETOOTH_SERVICE
         }
-
-        hc06Device = bluetoothAdapter.bondedDevices
-            .firstOrNull { it.name?.contains(hc06Name, true) == true }
-
-        if (hc06Device == null) {
-            Log.e(TAG, "Dispositivo HC-06 no encontrado en dispositivos emparejados")
-            showToast("⚠️ Empareja el $hc06Name primero")
-        } else {
-            Log.i(TAG, "HC-06 encontrado: ${hc06Device?.name} - ${hc06Device?.address}")
-            if (!isConnected) {
-                lifecycleScope.launch { connectAndWait() }
-            }
-        }
+        startService(intent)
     }
 
-    @androidx.annotation.RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    private suspend fun connectAndWait() {
-        if (isConnecting || isConnected || hc06Device == null) {
-            Log.d(TAG, "Conexión cancelada - isConnecting: $isConnecting, isConnected: $isConnected, device: ${hc06Device?.name}")
-            return
+    private fun stopBluetoothService() {
+        Log.d(TAG, "Deteniendo NetworkBluetoothService")
+        val intent = Intent(this, NetworkBluetoothService::class.java).apply {
+            action = AppStrings.ACTION_STOP_BLUETOOTH_SERVICE
         }
-
-        withContext(Dispatchers.Main) { showToast("🔄 Conectando a HC-06…") }
-        Log.i(TAG, "Iniciando conexión a HC-06...")
-
-        val ok = connectSocket()
-        withContext(Dispatchers.Main) {
-            if (ok) {
-                Log.i(TAG, "Conexión exitosa a HC-06")
-                showToast("✅ HC-06 conectado")
-                isConnected = true
-            } else {
-                Log.e(TAG, "Fallo en conexión a HC-06")
-                showToast("❌ No se pudo conectar al HC-06")
-                isConnected = false
-            }
-        }
+        startService(intent)
     }
 
-    @SuppressLint("MissingPermission")
-    private suspend fun connectSocket(): Boolean = withContext(Dispatchers.IO) {
-        isConnecting = true
-        try {
-            Log.d(TAG, "Cerrando socket anterior...")
-            btSocket?.close()
+    // Método para detener TODOS los servicios cuando la app se cierra completamente
+    private fun stopAllServices() {
+        Log.d(TAG, "Deteniendo TODOS los servicios")
+        stopBluetoothService()
+        // Aquí puedes agregar otros servicios que necesites detener
+    }
 
-            Log.d(TAG, "Creando nuevo socket RFCOMM...")
-            btSocket = hc06Device!!.createInsecureRfcommSocketToServiceRecord(sppUuid)
-            bluetoothAdapter.cancelDiscovery()
-
-            Log.d(TAG, "Conectando socket...")
-            btSocket!!.connect()
-            delay(300)
-
-            val connected = btSocket!!.isConnected
-            Log.i(TAG, "Estado de conexión del socket: $connected")
-            return@withContext connected
-
-        } catch (ex: IOException) {
-            Log.w(TAG, "Fallo método principal, intentando reflexión...", ex)
-            try {
-                val m = hc06Device!!::class.java
-                    .getMethod("createRfcommSocket", Int::class.javaPrimitiveType)
-                btSocket = m.invoke(hc06Device, 1) as BluetoothSocket
-                btSocket!!.connect()
-                val connected = btSocket!!.isConnected
-                Log.i(TAG, "Conexión por reflexión exitosa: $connected")
-                return@withContext connected
-            } catch (ex2: Exception) {
-                Log.e(TAG, "Fallo en método de reflexión", ex2)
-            }
-            return@withContext false
-        } finally {
-            isConnecting = false
-        }
+    // Método público para cerrar la app completamente (si lo necesitas desde otro lugar)
+    fun closeAppCompletely() {
+        Log.d(TAG, "Cerrando app completamente desde método público")
+        isAppClosing = true
+        finish()
     }
 
     suspend fun sendBluetoothCommand(cmd: Char): Boolean {
-        Log.d(TAG, "Enviando comando '$cmd'")
-
-        if (!isConnected || btSocket?.isConnected != true) {
-            Log.w(TAG, "Socket no conectado, intentando reconectar...")
-            if (!connectSocket()) {
-                Log.e(TAG, "Falló reconexión")
-                return false
-            }
-            isConnected = true
-        }
-
-        return sendCommand(cmd)
-    }
-
-    private suspend fun sendCommand(cmd: Char): Boolean = withContext(Dispatchers.IO) {
-        try {
-            Log.d(TAG, "Escribiendo comando '$cmd' (ASCII: ${cmd.code}) al socket...")
-            btSocket!!.outputStream.write(cmd.code)
-            btSocket!!.outputStream.flush()
-            Log.d(TAG, "Comando enviado y buffer limpiado")
-            delay(80)
-            true
-        } catch (ex: IOException) {
-            Log.e(TAG, "Error al enviar comando '$cmd'", ex)
-            btSocket?.close()
+        val bluetoothService = NetworkBluetoothService.getInstance()
+        return if (bluetoothService != null && bluetoothService.isConnected) {
+            bluetoothService.sendBluetoothCommand(cmd)
+        } else {
+            Log.e(TAG, "NetworkBluetoothService no disponible o no conectado")
             false
         }
     }
+
+    val isBluetoothConnected: Boolean
+        get() = NetworkBluetoothService.getInstance()?.isConnected ?: false
 
     private fun initRecyclerView() {
         binding.rvHomeCards.layoutManager = GridLayoutManager(this, 2)
@@ -249,14 +175,51 @@ class HomeActivity : AppCompatActivity() {
                 "lights" -> {
                     goToLightsActivity()
                 }
-                "bathroom" -> {
-                    Toast.makeText(this, "Control de baño", Toast.LENGTH_SHORT).show()
+
+                "ventilador" -> {
+                    toggleFan()
                 }
+
                 "doors" -> {
                     Toast.makeText(this, "Control de puertas", Toast.LENGTH_SHORT).show()
                 }
+
                 "dining" -> {
                     Toast.makeText(this, "Control de comedor", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun toggleFan() {
+        if (!isBluetoothConnected) {
+            showToast("Bluetooth no conectado")
+            return
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val success = sendBluetoothCommand('V')
+
+                withContext(Dispatchers.Main) {
+                    if (success) {
+                        fanState = !fanState
+                        val statusMessage = if (fanState) {
+                            "🌬️ Ventilador ENCENDIDO"
+                        } else {
+                            "🌬️ Ventilador APAGADO"
+                        }
+                        showToast(statusMessage)
+                        Log.d(TAG, statusMessage)
+                    } else {
+                        showToast("Error al controlar el ventilador")
+                        Log.e(TAG, "Error enviando comando 'V' al Arduino")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showToast("Error de comunicación")
+                    Log.e(TAG, "Excepción al enviar comando: ${e.message}")
                 }
             }
         }

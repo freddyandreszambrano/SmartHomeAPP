@@ -2,14 +2,14 @@
 <resources>
     <string-array name="home_card_titles">
         <item>Luces</item>
-        <item>Bathroom</item>
+        <item>Ventilador</item>
         <item>Puertas</item>
         <item>Dining</item>
     </string-array>
 
     <string-array name="home_card_actions">
         <item>lights</item>
-        <item>bathroom</item>
+        <item>ventilador</item>
         <item>doors</item>
         <item>dining</item>
     </string-array>
@@ -39,7 +39,7 @@
 
     <string-array name="lights_card_actions">
         <item>ALL</item>
-        <item>BATHROOM</item>
+        <item>VENTILADOR</item>
         <item>BEDROOM</item>
         <item>KITCHEN</item>
         <item>LIVING ROOM</item>
