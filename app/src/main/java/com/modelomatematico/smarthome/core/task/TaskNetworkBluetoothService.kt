@@ -5,15 +5,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.modelomatematico.smarthome.core.constants.AppStrings
-import com.modelomatematico.smarthome.core.services.quake.NetworkQuakeService
+import com.modelomatematico.smarthome.core.services.bluetooth.NetworkBluetoothService
 
-class TaskNetworkQuakeService {
+class TaskNetworkBluetoothService {
 
     private fun isServiceRunning(context: Context): Boolean {
         val activityManager =
             context.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
         for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-            if (NetworkQuakeService::class.java.name == service.service.className) {
+            if (NetworkBluetoothService::class.java.name == service.service.className) {
                 return true
             }
         }
@@ -22,8 +22,8 @@ class TaskNetworkQuakeService {
 
     fun startService(context: Context) {
         if (!isServiceRunning(context)) {
-            val intent = Intent(context, NetworkQuakeService::class.java).apply {
-                action = AppStrings.ACTION_START_QUEUE_SERVICE
+            val intent = Intent(context, NetworkBluetoothService::class.java).apply {
+                action = AppStrings.ACTION_START_BLUETOOTH_SERVICE
             }
             context.startService(intent)
         }
@@ -31,8 +31,8 @@ class TaskNetworkQuakeService {
 
     fun stopService(context: Context) {
         if (isServiceRunning(context)) {
-            val intent = Intent(context, NetworkQuakeService::class.java).apply {
-                action = AppStrings.ACTION_STOP_QUEUE_SERVICE
+            val intent = Intent(context, NetworkBluetoothService::class.java).apply {
+                action = AppStrings.ACTION_STOP_BLUETOOTH_SERVICE
             }
             context.stopService(intent)
         }
