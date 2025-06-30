@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Para Android 12 (API 31)+ -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
-    <!-- Para Android 11 e inferiores (maxSdkVersion evita conflictos) -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
@@ -14,19 +12,15 @@
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
 
-    <!-- Si vas a escanear dispositivos en versiones ≤ Android 11, aún se exige localización -->
     <uses-permission
         android:name="android.permission.ACCESS_FINE_LOCATION"
         android:maxSdkVersion="30" />
 
-    <!-- Declarar que la app requiere BT clásico -->
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="true" />
-    <!-- (Opcional) Si tu teléfono usa BLE además del HC-06, agrega: -->
-    <!-- <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" /> -->
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".BaseApplication"
@@ -41,7 +35,11 @@
         tools:targetApi="31">
         <activity
             android:name=".features.quake.view.ui.QuakeAlertActivity"
-            android:exported="false" />
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTop"
+            android:taskAffinity="" />
         <activity
             android:name=".features.lights.view.ui.LightsActivity"
             android:exported="false"
@@ -64,6 +62,11 @@
 
         <service
             android:name=".core.services.quake.NetworkQuakeService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".core.services.bluetooth.NetworkBluetoothService"
             android:enabled="true"
             android:exported="false" />
     </application>
