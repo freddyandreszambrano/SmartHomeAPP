@@ -128,14 +128,11 @@ class HomeActivity : AppCompatActivity() {
         startService(intent)
     }
 
-    // Método para detener TODOS los servicios cuando la app se cierra completamente
     private fun stopAllServices() {
         Log.d(TAG, "Deteniendo TODOS los servicios")
         stopBluetoothService()
-        // Aquí puedes agregar otros servicios que necesites detener
     }
 
-    // Método público para cerrar la app completamente (si lo necesitas desde otro lugar)
     fun closeAppCompletely() {
         Log.d(TAG, "Cerrando app completamente desde método público")
         isAppClosing = true
